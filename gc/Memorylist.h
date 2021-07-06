@@ -1,4 +1,4 @@
-#include "LinkedList.h"
+#include "../LinkedList/LinkedList.h"
 #ifndef ML_H_   /* Include guard */
 #define ML_H_
 
