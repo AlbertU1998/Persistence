@@ -3,12 +3,22 @@
 
 typedef struct Node {
     int val;
-    Node *left;
-    Node *right;
+    struct Node *left;
+    struct Node *right;
 } Node;
 
 typedef struct {
-    int y;
-} ball;
+    Node *head;
+} BinaryTree;
+
+BinaryTree insert(BinaryTree t, int val);
+
+BinaryTree fromArray(int *arr, int length);
+
+BinaryTree eliminate(BinaryTree t, int val);
+
+int        min(BinaryTree t);
+
+void       traverse(BinaryTree t);
 
 #endif

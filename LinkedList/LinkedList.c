@@ -5,7 +5,6 @@
 
 Node *createNode(int val, Node *next) {
     Node *newNode = malloc(sizeof(Node));
-    // printf("Allocation\n");
     append(newNode); // keep track of allocated memory
     *newNode = (Node) { .val = val, .next = next };
     return newNode;
@@ -145,7 +144,6 @@ LinkedList mergeSort(LinkedList l) {                // again only works with uni
     LinkedList right = mergeSort(drop(len / 2, l));
     return merge(left, right);
 }
-
 
 // admin functions ---------------------------------------------
 
