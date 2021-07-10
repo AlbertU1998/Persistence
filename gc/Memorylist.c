@@ -20,8 +20,8 @@ void append(void *data) {
 
 void deleteAll(MemoryNode *root) {
     if (!root) return;
-    deleteAll(root->next);
     free(root->data);
+    deleteAll(root->next);
     free(root);
     deletions += 1;
 }
@@ -30,7 +30,7 @@ void terminate() {
     deleteAll(memory.head);
 
     //summary of memory management
-    //printf("%i Allocations and %i Deletions\n", allocations, deletions);
+    printf("%i Allocations and %i Deletions\n", allocations, deletions);
     
     memory.head = NULL;
     allocations = 0;
