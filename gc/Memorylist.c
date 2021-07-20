@@ -37,3 +37,8 @@ void terminate() {
     deletions = 0;
 }
 
+void panic(char *message) {
+    printf("%s", message);
+    terminate();
+    exit(1);
+}
