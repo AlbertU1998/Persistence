@@ -1,7 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 #include "BinaryTree.h"
 #include "../gc/MemoryList.h"
+#include "../CharMatrix/CharMatrix.h"
 
 Node *createNode(int val, Node *left, Node *right) {
     Node *newNode = (Node*)malloc(sizeof(Node));
@@ -55,6 +57,45 @@ Node *eliminateNode(Node *n, int val) {
  
 BinaryTree eliminate(BinaryTree t, int val) {
     return (BinaryTree){ .head = eliminateNode(t.head, val) };
+}
+
+CharMatrix intToSegment(int n) {
+    int l = (int)(7 + ceil(log10(500)));
+    char *str = (char*)calloc(l, sizeof(char));
+    append(str);
+    for(int i = 0; i < l - 1; i++) str[i] = "--<500>--"[i];
+    str[l - 1] = '\0';
+    return fromString(str);
+}
+
+CharMatrix prettyPrintNode(Node *n) {
+    if (!n) return (CharMatrix){ .head = NULL, .height = 0, .width = 0 };
+
+    CharMatrix left  = prettyPrintNode(n->left);
+    CharMatrix right = prettyPrintNode(n->right);
+    CharMatrix currentVal = intToSegment(n->val);
+
+    int width = left.width > right.width ? left.width : right.width;
+    CharMatrix padLeft  = horizontalConcat(left,  createCharMatrix(' ', left.height,  width - left.width));
+    CharMatrix padRight = horizontalConcat(right, createCharMatrix(' ', right.height, width - right.width));
+    CharMatrix leftRight = verticalConcat(padLeft, padRight);
+
+    int height = leftRight.height > currentVal.height ? leftRight.height : currentVal.height;
+    CharMatrix valPad = verticalConcat(
+        currentVal, 
+        createCharMatrix(' ', height - currentVal.height, currentVal.width)
+    );
+    
+    CharMatrix leftRightPad = verticalConcat(
+        leftRight, 
+        createCharMatrix(' ', height - leftRight.height, leftRight.width)
+    );
+    
+    return horizontalConcat(valPad, leftRightPad);
+}
+
+CharMatrix prettyPrint(BinaryTree t) {
+    return prettyPrintNode(t.head);
 }
 
 void traverseNode(Node *n) {

@@ -16,4 +16,6 @@ void append(void *data);
 
 void terminate();
 
+void panic(char *message);
+
 #endif
