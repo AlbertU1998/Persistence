@@ -1,11 +1,11 @@
-#include <stdlib.h>;
-#include "../CharMatrix/CharMatrix.h";
-#include "../gc/Memorylist.h";
-#include "Tri.h";
+#include <stdlib.h>
+#include "../CharMatrix/CharMatrix.h"
+#include "../gc/MemoryList.h"
+#include "Tri.h"
 
-
-//may only be copied from
-Node *nullLetters[26] = { NULL };
+const Node *nullLetters[26] = { NULL };
+const Node nullNode = (Node) { .end = 0, .letters = nullLetters };
+const Tri EmptyTri = (Tri) { .head = &nullNode };
 
 Node *createNode(Node **letters, int end) {
     Node *newNode = (Node*)malloc(sizeof(Node));
@@ -23,11 +23,15 @@ Node *createNode(Node **letters, int end) {
 }
 
 Node *insertNode(Node *root, char *word) {
-    if (word[0] == '\0') return createNode(root ? root->letters : &nullLetters, 1);
+    if (word[0] == '\0') return createNode(root ? root->letters : nullLetters, 1);
     int idx = word[0] - 'a';
-    Node *newNode = createNode(root ? root->letters : &nullLetters, root ? root->end : 0);
+    Node *newNode = createNode(root ? root->letters : nullLetters, root ? root->end : 0);
     newNode->letters[idx] = insertNode(newNode->letters[idx], word + 1);
     return newNode;
+}
+
+Tri insert(Tri t, char *word) {
+    return (Tri) { .head = insertNode(t.head, word) };
 }
 
 CharMatrix traverseNode(Node *root) {
@@ -40,4 +44,8 @@ CharMatrix traverseNode(Node *root) {
         output = verticalConcatPad(output, apptmp);
     }
     return output;
+}
+
+CharMatrix traverse(Tri t) {
+    return traverseNode(t.head);
 }

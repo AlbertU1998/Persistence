@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "CharMatrix.h";
-#include "../gc/MemoryList.h";
+#include "CharMatrix.h"
+#include "../gc/MemoryList.h"
 
 CharMatrix createCharMatrix(char val, int height, int width) {
     if (height < 0 || width < 0) panic("Invalid dimensions for creating matrix");
