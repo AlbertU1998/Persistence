@@ -60,10 +60,14 @@ BinaryTree eliminate(BinaryTree t, int val) {
 }
 
 CharMatrix intToSegment(int n) {
-    int l = (int)(7 + ceil(log10(500)));
-    char *str = (char*)calloc(l, sizeof(char));
-    append(str);
-    for(int i = 0; i < l - 1; i++) str[i] = "--<500>--"[i];
+    int digitCount = ceil(log10(n + 0.01)), l = 7 + digitCount;   // "--<>--" == 6, '\0' == 1
+    char str[l], tmp[12];
+    sprintf(tmp, "%d", n);
+    for(int i = 0; i < digitCount; i++) str[i + 3] = tmp[i];
+    for(int i = 0; i < 3; i++) {
+        str[i] = "--<"[i];
+        str[i + 3 + digitCount] = ">--"[i];
+    }
     str[l - 1] = '\0';
     return fromString(str);
 }
