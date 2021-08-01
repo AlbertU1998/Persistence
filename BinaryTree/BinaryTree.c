@@ -70,28 +70,11 @@ CharMatrix intToSegment(int n) {
 
 CharMatrix prettyPrintNode(Node *n) {
     if (!n) return (CharMatrix){ .head = NULL, .height = 0, .width = 0 };
-
     CharMatrix left  = prettyPrintNode(n->left);
     CharMatrix right = prettyPrintNode(n->right);
+    CharMatrix leftRight = verticalConcatPad(left, right);
     CharMatrix currentVal = intToSegment(n->val);
-
-    int width = left.width > right.width ? left.width : right.width;
-    CharMatrix padLeft  = horizontalConcat(left,  createCharMatrix(' ', left.height,  width - left.width));
-    CharMatrix padRight = horizontalConcat(right, createCharMatrix(' ', right.height, width - right.width));
-    CharMatrix leftRight = verticalConcat(padLeft, padRight);
-
-    int height = leftRight.height > currentVal.height ? leftRight.height : currentVal.height;
-    CharMatrix valPad = verticalConcat(
-        currentVal, 
-        createCharMatrix(' ', height - currentVal.height, currentVal.width)
-    );
-    
-    CharMatrix leftRightPad = verticalConcat(
-        leftRight, 
-        createCharMatrix(' ', height - leftRight.height, leftRight.width)
-    );
-    
-    return horizontalConcat(valPad, leftRightPad);
+    return horizontalConcatPad(currentVal, leftRight);
 }
 
 CharMatrix prettyPrint(BinaryTree t) {

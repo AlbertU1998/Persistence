@@ -19,6 +19,10 @@ CharMatrix verticalConcat(CharMatrix m1, CharMatrix m2);
 
 CharMatrix horizontalConcat(CharMatrix m1, CharMatrix m2);
 
+CharMatrix verticalConcatPad(CharMatrix m1, CharMatrix m2);
+
+CharMatrix horizontalConcatPad(CharMatrix m1, CharMatrix m2);
+
 void printCharMatrix(CharMatrix m, char delim);
 
 #endif // M_H_

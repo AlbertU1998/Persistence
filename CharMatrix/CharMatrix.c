@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "CharMatrix.h"
-#include "../gc/MemoryList.h"
+#include "CharMatrix.h";
+#include "../gc/MemoryList.h";
 
 CharMatrix createCharMatrix(char val, int height, int width) {
     if (height < 0 || width < 0) panic("Invalid dimensions for creating matrix");
@@ -70,7 +70,7 @@ CharMatrix verticalConcat(CharMatrix m1, CharMatrix m2) {
     CharMatrix newMatrix = createCharMatrix(' ', m1.height + m2.height, m1.width);
     mut_replace(newMatrix, m1, 0, 0);
     mut_replace(newMatrix, m2, m1.height, 0);
-    return newMatrix;
+    return newMatrix; 
 }
 
 CharMatrix horizontalConcat(CharMatrix m1, CharMatrix m2) {
@@ -79,6 +79,20 @@ CharMatrix horizontalConcat(CharMatrix m1, CharMatrix m2) {
     mut_replace(newMatrix, m1, 0, 0);
     mut_replace(newMatrix, m2, 0, m1.width);
     return newMatrix;
+}
+
+CharMatrix verticalConcatPad(CharMatrix m1, CharMatrix m2) {
+    int width = m1.width > m2.width ? m1.width : m2.width;
+    CharMatrix padM1 = horizontalConcat(m1, createCharMatrix(' ', m1.height, width - m1.width));
+    CharMatrix padM2 = horizontalConcat(m2, createCharMatrix(' ', m2.height, width - m2.width));
+    return verticalConcat(padM1, padM2);
+}
+
+CharMatrix horizontalConcatPad(CharMatrix m1, CharMatrix m2) {
+    int height = m1.height > m2.height ? m1.height : m2.height;
+    CharMatrix padM1 = verticalConcat(m1, createCharMatrix(' ', height - m1.height, m1.width));
+    CharMatrix padM2 = verticalConcat(m2, createCharMatrix(' ', height - m2.height, m2.width));
+    return horizontalConcat(padM1, padM2);
 }
 
 void printCharMatrix(CharMatrix m, char delim) {
